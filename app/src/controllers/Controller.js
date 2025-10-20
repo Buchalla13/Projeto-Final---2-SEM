@@ -14,3 +14,8 @@ exports.criarTarefa = (req, res) => {
         res.send('Tarefa criada com sucesso!');
     });
 };
+
+exports.paginaInicial = (req, res) => {
+let pagina = ejs.render('formularioTarefas')
+ res.render(pagina)
+};
