@@ -1,5 +1,5 @@
 const Task = require('../models/Model');
-
+const ejs = require('ejs')
 exports.listarTarefas = (req, res) => {
     Task.getAll((err, results) => {
         if (err) return res.status(500).send('Erro ao buscar tarefas');
@@ -16,6 +16,6 @@ exports.criarTarefa = (req, res) => {
 };
 
 exports.paginaInicial = (req, res) => {
-let pagina = ejs.render('formularioTarefas')
+let pagina = ejs.render('index')
  res.render(pagina)
 };
