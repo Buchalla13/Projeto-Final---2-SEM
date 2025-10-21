@@ -9,6 +9,12 @@ body{
     font-family: fantasy;
 }
 
+.logo{
+
+  filter: invert(0.3);
+}
+
+
 html,body{
 	height:100%;
  	margin:0;
