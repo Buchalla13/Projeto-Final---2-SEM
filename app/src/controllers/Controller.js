@@ -1,5 +1,6 @@
 const Task = require('../models/Model');
-const ejs = require('ejs')
+const ejs = require('ejs');
+
 exports.listarTarefas = (req, res) => {
     Task.getAll((err, results) => {
         if (err) return res.status(500).send('Erro ao buscar tarefas');
@@ -19,3 +20,18 @@ exports.paginaInicial = (req, res) => {
 let pagina = ejs.render('index')
  res.render(pagina)
 };
+//------------------------Buchalla------------------------
+
+const Produtos_controladores = {
+  getAll: async (req, res) => {
+    try {
+      const produtos = await Task.getAll(); 
+      res.render('produtos', { produtos }); 
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+};
+
+module.exports = Produtos_controladores;
+//------------------Fim do Buchalla------------------------
