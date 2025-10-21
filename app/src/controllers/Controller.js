@@ -22,9 +22,9 @@ let pagina = ejs.render('index')
 };
 //------------------------Buchalla------------------------
 
-const Produtos_controladores = {
-  getAll: async (req, res) => {
-    try {
+/*const Produtos_controladores = {
+ getAll: async (req, res) => {
+   try {
       const produtos = await Task.getAll(); 
       res.render('produtos', { produtos }); 
     } catch (error) {
@@ -34,4 +34,4 @@ const Produtos_controladores = {
 };
 
 module.exports = Produtos_controladores;
-//------------------Fim do Buchalla------------------------
+//------------------Fim do Buchalla------------------------*/
