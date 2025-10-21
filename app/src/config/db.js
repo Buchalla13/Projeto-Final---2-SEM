@@ -5,7 +5,7 @@ const db = mysql.createConnection({
   host: '127.0.0.1' || 'localhost',
   user: 'root', 
   password: 'B1st3c40',
-  database: 'projeto_final_bd',
+  database: 'projeto_final_bd'
 }).promise();
 
 async function getUsuarios() {
