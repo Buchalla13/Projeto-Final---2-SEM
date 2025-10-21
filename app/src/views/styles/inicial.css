@@ -5,6 +5,8 @@
 	--gap:20px;
 }
 
+
+
 body{
     font-family: fantasy;
 }
@@ -35,23 +37,17 @@ main{
 	min-height: calc(100vh -  (64px + 64px)); 
 	display:flex;
 	align-items:center; 
-html, body {
-	height: 100%;
-	margin: 0;
-	padding: 0;
-}
+  html, body {
+	  height: 100%;
+	  margin: 0;
+	  padding: 0;
+  }
 
 
 	transition: transform 220ms ease, box-shadow 220ms ease, filter 220ms ease;
 	box-shadow: 0 10px 30px rgba(0,0,0,0.85), 0 2px 6px rgba(255,255,255,0.02) inset;
 }
 
-:root {
-  --black: #000000;
-  --dark-gray: #1e1e1e;
-  --card-black: #0b0b0b;
-  --gap: 20px;
-}
 
 html, body {
   height: 100%;
