@@ -2,10 +2,10 @@
 const mysql = require('mysql2');
 
 const db = mysql.createConnection({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_HOST || 'root', 
-  password: process.env.DB_PASS || '',
-  database: process.env.DB_NAME || 'projeto_escola'
+  host: '127.0.0.1' || 'localhost',
+  user: 'root', 
+  password: 'B1st3c40',
+  database: 'projeto_final_bd'
 }).promise();
 
 async function getUsuarios() {
