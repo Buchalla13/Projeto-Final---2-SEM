@@ -17,7 +17,8 @@ exports.criarTarefa = (req, res) => {
 };
 
 exports.paginaInicial = (req, res) => {
-  res.sendFile(__dirname.replace("controllers","views/inicial.html"))
+let pagina = ejs.render('inicial')
+ res.render(pagina)
 };
 //------------------------Buchalla------------------------
 
