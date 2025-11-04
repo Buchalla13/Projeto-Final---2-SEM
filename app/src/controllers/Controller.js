@@ -17,8 +17,8 @@ exports.criarTarefa = (req, res) => {
 };
 
 exports.paginaInicial = (req, res) => {
-  let pagina = ejs.render('inicial')
-  res.render(pagina)
+  // renderiza a view 'inicial.ejs'
+  res.render('inicial');
 };
 //------------------------Buchalla------------------------
 

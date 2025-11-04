@@ -5,15 +5,16 @@ const controllers = require('../controllers/Controller');
 router.get('/', controllers.paginaInicial);
 
 router.get('/inscrever', (req, res) => {
-  res.send('a rota pra novo cliente ta rodando'); // todos os res.send são pra teste
+  // renderiza a view cadastro.ejs (views path configurado em app.js)
+  res.render('cadastro');
 });
 
 router.get('/login', (req, res) => {
-  res.send('a rota logar ta rodando');
+  res.render('login');
 });
 
 router.get('/trabalhe_conosco', (req, res) => {
-  res.send('a rota do CLT ta rodando');
+  res.render('funcionario');
 });
 
 module.exports = router;
