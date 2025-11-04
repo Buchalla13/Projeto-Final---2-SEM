@@ -20,18 +20,3 @@ exports.paginaInicial = (req, res) => {
   // renderiza a view 'inicial.ejs'
   res.render('inicial');
 };
-//------------------------Buchalla------------------------
-
-/*const Produtos_controladores = {
- getAll: async (req, res) => {
-   try {
-      const produtos = await Task.getAll(); 
-      res.render('produtos', { produtos }); 
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  }
-};
-
-module.exports = Produtos_controladores;
-//------------------Fim do Buchalla------------------------*/
