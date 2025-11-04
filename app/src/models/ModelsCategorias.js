@@ -15,7 +15,7 @@ nome: {
 descricao: {
     type: DataTypes.TEXT,
     allowNull: true
-}
+},
 
 }, {
  tableName: 'Categorias',
