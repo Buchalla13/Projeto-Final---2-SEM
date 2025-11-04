@@ -7,6 +7,10 @@
 
 body{
     font-family: fantasy;
+    body {
+    background-color: #474350 !important;
+    color: #fff;
+  }
 }
 
 .logo{
@@ -148,5 +152,11 @@ footer {
   /* center footer text on mobile */
   footer .container { justify-content: center !important; }
   footer .container > div { text-align: center; }
+}
+
+.btn{
+    background-color: #FFC857;
+    border-color: #FFC857;
+    color: #000;
 }
 

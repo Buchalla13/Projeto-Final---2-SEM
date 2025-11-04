@@ -1,8 +1,12 @@
 <%- include('partials.ejs/header') %>
+<link rel="stylesheet" href="styles/cadastro_cliente.css">
+
+<h1>Bem-Vindo! Para criar sua conta, preencha essas informações:</h1>
 
 
+<div class="formCadastroCliente">
 
-<div class="input-group mb-3">
+  <div class="input-group mb-3">
   <span class="input-group-text" id="inputGroup-sizing-default">Nome Completo</span>
   <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 </div>
@@ -26,6 +30,13 @@
   <span class="input-group-text" id="inputGroup-sizing-default">Endereço</span>
   <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 </div>
+  <div class="mb-3">
+    <button class="btn btn-primary" type="submit">Submit form</button>
+  </div>
+</div>
+
+</div>
+
 
 
 <%- include('partials.ejs/footer') %>

@@ -1,0 +1,24 @@
+body {
+    background-color: #474350;
+    color: #fff;
+  }
+  .formCadastroCliente {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--card-black);
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.85), 0 2px 6px rgba(255,255,255,0.02) inset;
+    color: #fff;
+  }
+  h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+.btn{
+    background-color: #FFC857;
+    border-color: #FFC857;
+    color: #000;
+}
+
