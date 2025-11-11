@@ -8,3 +8,15 @@ exports.listarUsuarios = async (req, res) => {
  res.status(500).send('Erro ao buscar usuários');
  }
 };
+
+exports.inscrever = async (req, res) => {
+    try{
+    const {nome , email, senha, endereco} = req.body;
+    const usuario = await Usuarios.create({nome,email,senha,endereco});
+        // após criar, redireciona para login (ajuste rota conforme seu app)
+        return res.redirect('/login_cliente');
+    } catch (error) {
+        console.error('deu b.o', error);
+        return res.status(500).send('deu b.o no serve');
+    }
+};
