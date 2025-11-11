@@ -4,31 +4,33 @@
 <h1>Bem-Vindo! Para criar sua conta, preencha essas informações:</h1>
 
 
+<<<<<<< HEAD
 <div class="formCadastroCliente">
 
   <div class="input-group mb-3">
+=======
+<h3><a href="login_cliente">Já possui uma conta? Faça login</a></h3>
+<form action="/cadastrar" method="post">
+<div class="input-group mb-3">
+>>>>>>> 4aa12a92dd314d6ba56ffc622bf37f4a87cf6c66
   <span class="input-group-text" id="inputGroup-sizing-default">Nome Completo</span>
-  <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+  <input id="nome" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 </div>
 <div class="input-group mb-3">
   <span class="input-group-text" id="inputGroup-sizing-default">Email</span>
-  <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+  <input id="email" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 </div>
 <div class="input-group mb-3">
   <span class="input-group-text" id="inputGroup-sizing-default">Senha</span>
-  <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-</div>
-<div class="input-group mb-3">
-  <span class="input-group-text" id="inputGroup-sizing-default">Confirmação de Senha</span>
-  <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+  <input type="text" id="senha" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 </div>
 <div class="input-group mb-3">
   <span class="input-group-text" id="inputGroup-sizing-default">CPF (ou documento de identidade)</span>
-  <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+  <input id="cpf" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 </div>
 <div class="input-group mb-3">
   <span class="input-group-text" id="inputGroup-sizing-default">Endereço</span>
-  <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+  <input id="endereco" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 </div>
   <div class="mb-3">
     <button class="btn btn-primary" type="submit">Submit form</button>
@@ -38,5 +40,6 @@
 </div>
 
 
-
+<button type="submit" class="btn btn-primary">Cadastrar!</button>
+</form>
 <%- include('partials.ejs/footer') %>

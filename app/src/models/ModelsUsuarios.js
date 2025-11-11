@@ -22,7 +22,11 @@ senha: {
  type: DataTypes.STRING(100),
  allowNull: false
 },
-
+tipo: {
+    type: DataTypes.ENUM('cliente', 'funcionario', 'admin'),
+    defaultValue: 'cliente',
+    allowNull: false
+},
 cpf: {
     type: DataTypes.STRING(11),
     allowNull: false,

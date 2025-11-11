@@ -26,7 +26,13 @@ preco: {
 
 categoriaId: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: true,
+     references: {
+    model: 'Categorias',
+    key: 'id'
+  },
+  onUpdate: 'CASCADE',
+  onDelete: 'SET NULL'
 }, 
 
 Tamanho: {
