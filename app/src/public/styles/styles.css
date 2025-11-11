@@ -150,3 +150,6 @@ footer {
   footer .container > div { text-align: center; }
 }
 
+.btn{
+  background-color: gold;
+}
