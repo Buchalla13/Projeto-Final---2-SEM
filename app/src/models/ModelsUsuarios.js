@@ -37,11 +37,6 @@ cpf: {
     unique: true
 },
 
-telefone: {
-    type: DataTypes.STRING(15),
-    defaultValue:'N/A',
-    allowNull: true
-},
 
 endereco: {
     type: DataTypes.TEXT,

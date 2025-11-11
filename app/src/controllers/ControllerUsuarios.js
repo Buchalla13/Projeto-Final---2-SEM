@@ -11,9 +11,8 @@ exports.listarUsuarios = async (req, res) => {
 
 exports.inscrever = async (req, res) => {
     try{
-    const {nome , email, senha, endereco} = req.body;
-    const usuario = await Usuarios.create({nome,email,senha,endereco});
-        // após criar, redireciona para login (ajuste rota conforme seu app)
+    const {nome , email, senha, endereco,cpf} = req.body;
+    const usuario = await Usuarios.create({nome,email,senha,endereco,cpf});
         return res.redirect('/login_cliente');
     } catch (error) {
         console.error('deu b.o', error);
