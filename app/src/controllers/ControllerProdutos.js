@@ -8,3 +8,5 @@ Produtos.findAll({ include: [{ model: Categorias, as: 'categoria' }] });
  res.status(500).send('Erro ao buscar produtos');
  }
 };
+
+// botar o post nessa merda aqui
