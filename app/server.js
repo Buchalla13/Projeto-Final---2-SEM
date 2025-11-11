@@ -1,9 +1,9 @@
 const app = require('./src/app');
 const sequelize = require('./src/config/db');
-const Produtos = require('./ModelsProdutos');
-const Categorias = require('./ModelsCategorias');
-const Vendas = require('./ModelsVendas');
-const Usuarios = require('./ModelsUsuarios');
+const Produtos = require('./src/models/ModelsProdutos');
+const Categorias = require('./src/models/ModelsCategorias');
+const Vendas = require('./src/models/ModelsVendas');
+const Usuarios = require('./src/models/ModelsUsuarios');
 
 sequelize.sync().then(() => {
  app.listen(2000, () => console.log('Servidor rodando em http://localhost:2000'));
