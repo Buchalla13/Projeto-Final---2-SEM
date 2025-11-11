@@ -43,7 +43,7 @@ subtotal: {
     allowNull: false
 },
 
-Usuario_id: {
+UsuarioI_id: {
   type: DataTypes.INTEGER,
   allowNull: false,
   references: {

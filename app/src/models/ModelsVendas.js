@@ -10,9 +10,9 @@ id: {
     autoIncrement: true
 },
 
-usuario_id: {
+usuarioV_id: {
     type: DataTypes.INTEGER,
-  allowNull: false,
+  allowNull: true,
   references: {
     model: 'Usuarios',
     key: 'id'
