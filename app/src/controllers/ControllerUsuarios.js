@@ -35,7 +35,7 @@ const LoginCliente = async (req, res) => {
         if (!clienteExistente) {
             return res.status(404).send('Usuário não encontrado');
         }
-        const Comparacao_Senha = await bcrypt.compare(req.body.senha, clienteExistente.senhaHash);
+        const Comparacao_Senha = await bcrypt.compare(req.body.senha, clienteExistente.senha);
         if (!Comparacao_Senha) {
             return res.status(401).send('Senha incorreta');
         }
