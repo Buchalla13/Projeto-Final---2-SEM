@@ -12,11 +12,14 @@ exports.listarUsuarios = async (req, res) => {
 
 exports.inscrever = async (req, res) => {
     try{
-    const {nome , email, senha, endereco,cpf} = req.body;
+    let {nome , email, senha, endereco,cpf} = req.body;
 
-    const senhaHash = await bcrypt.hash(senha, 10);
+    senha = await bcrypt.hash(senha, 10);
+    console.log("senha;"+senha);
 
-    const usuario = await Usuarios.create({nome,email,senhaHash,endereco,cpf});
+    
+
+    const usuario = await Usuarios.create({nome,email,senha,endereco,cpf});
 
         return res.redirect('/login_cliente');
     } catch (error) {
