@@ -155,13 +155,15 @@ footer {
 }
 
 .btn{
-<<<<<<< HEAD:app/src/public/styles/inicial.css
-    background-color: #FFC857;
-    border-color: #FFC857;
-    color: #000;
+  background-color: #FFC857;
+  border-color: #FFC857;
+  color: #000;
 }
 
-=======
-  background-color: gold;
+/* Ensure buttons have pointer and consistent padding */
+.btn, button, input[type="submit"], .btn-primary {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
 }
->>>>>>> 4aa12a92dd314d6ba56ffc622bf37f4a87cf6c66:app/src/public/styles/styles.css

@@ -1,0 +1,16 @@
+@import 'styles.css';
+
+/* Regras específicas para a página de login do cliente, herdando a aparência do inicial */
+.formLogin {
+	max-width: 420px;
+	margin: 3rem auto;
+	padding: 1rem;
+	background: linear-gradient(180deg, var(--card-black), #111);
+	border-radius: 8px;
+	box-shadow: 0 12px 36px rgba(0,0,0,0.85);
+	color: #fff;
+}
+
+.formLogin h2 { text-align: center; margin-bottom: 1rem; }
+
+/* usa .btn de styles.css para os botões */
