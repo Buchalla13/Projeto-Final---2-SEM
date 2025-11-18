@@ -116,6 +116,25 @@ main {
 
 .card .card-body { background: transparent; }
 
+/* Button styles */
+.btn-primary {
+  background: #FFD700 !important;
+  color: #000 !important;
+  border: none !important;
+  font-weight: bold !important;
+  transition: all 220ms ease !important;
+}
+
+.btn-primary:hover {
+  background: #FFC700 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4) !important;
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
 footer {
   flex-shrink: 0; 
   color: #fff;

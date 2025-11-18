@@ -1,5 +1,79 @@
-<%- include('partials.ejs/header') %>
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Colaborador - GOAT'S store</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/funcionario.css">
+    <link rel="shortcut icon" class="logo" href="images/logo.jpg" type="image/x-icon">
+  </head>
+  <body class="d-flex flex-column min-vh-100">
+    
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/"><img width="40px" src="images/logo.jpg"> GOAT'S store</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Alternar navegação">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" href="/">Início</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/login_funcionario">Login Colaborador</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="/trabalhe_conosco">Trabalhe Conosco</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <div class="funcionario-container">
+        <div class="funcionario-card">
+          <h2>Bem-vindo, Colaborador!</h2>
+          <p>Acesso exclusivo para funcionários GOAT'S store</p>
+          
+          <div class="info-box">
+            Insira seu código de serviço para continuar
+          </div>
+
+          <form method="POST" action="/verificar-funcionario" class="funcionario-form">
+            
+            <div class="form-group">
+              <label for="codigo">Código de Serviço</label>
+              <input type="text" id="codigo" name="codigo" placeholder="Código dos GOAT's" required>
+            </div>
+
+            <button type="submit" class="btn-funcionario">Verificar Código</button>
+          </form>
 
 
+          <div class="form-info">
+            Não é colaborador? <a href="/">Voltar ao início</a>
+          </div>
+        </div>
+      </div>
+    </main>
 
-<%- include('partials.ejs/footer') %>
+    <footer class="bg-dark text-light py-3 mt-auto">
+      <div class="container footer-center">
+        <div>
+          &copy; <span id="year"></span> GOAT'S store. Nenhum direito reservado.
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
