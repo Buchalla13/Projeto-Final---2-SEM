@@ -25,13 +25,14 @@
         <input type="file" name="imagem" required>
         <button type="submit">Enviar</button>
     </form>
-
-    <% if (urlImagem) { %>
-        <h2>Imagem enviada:</h2>
-        <img src="<%= urlImagem %>" alt="Imagem enviada">
+    <!-- Exibe a imagem enviada, se houver -->
+    <% if (typeof urlImagem !== 'undefined' && urlImagem) { %>
+        <h2>Imagem Enviada:</h2>
+        <img src="<%= urlImagem %>" alt="Imagem Enviada">
     <% } %>
 
-    <% if (erro) { %>
+    <!-- Exibe mensagem de erro (se houver) -->
+    <% if (typeof erro !== 'undefined' && erro) { %>
         <p style="color: red;"><%= erro %></p>
     <% } %>
 

@@ -17,5 +17,9 @@ const uploadRoutes = require("./routes/uploadRoutes");
 app.use("/api", uploadRoutes);
 
 
+const rotateste = require('./routes/rotateste');
+app.use('/', rotateste);
+
+
 const Routes = require('./routes/Routes');
 app.use('/', Routes);

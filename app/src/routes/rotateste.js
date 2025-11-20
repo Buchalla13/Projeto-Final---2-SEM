@@ -6,9 +6,9 @@ const upload = multer({ storage: multer.memoryStorage() });
 const ImageKit = require('imagekit');
 
 const imagekit = new ImageKit({
-    publicKey: process.env.ImagekitID,
-    privateKey: process.env.ImagekitPrivate,
-    urlEndpoint: process.env.URLendpoint
+    publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
+    privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
+    urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT
 });
 
 // Página com o formulário
