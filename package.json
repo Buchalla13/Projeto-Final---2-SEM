@@ -1,0 +1,28 @@
+{
+  "name": "projeto-final---2-sem",
+  "version": "1.0.0",
+  "description": "Projeto de site de loja de itens esportivos criado como projeto final da matéria de desenvolvimento web do 2º ano de informática do IFSP campus Jacareí, ano 2025.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Buchalla13/Projeto-Final---2-SEM.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Buchalla13/Projeto-Final---2-SEM/issues"
+  },
+  "homepage": "https://github.com/Buchalla13/Projeto-Final---2-SEM#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "imagekit": "^6.0.0",
+    "multer": "^2.0.2",
+    "mysql2": "^3.15.3"
+  }
+}
