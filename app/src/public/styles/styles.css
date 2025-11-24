@@ -127,3 +127,23 @@ footer {
   border-radius: 6px;
   text-decoration: none;
 }
+
+/* Helpers for cliente view sticky side cards and vertical sizing */
+.sticky-card {
+  position: sticky;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Vertical size helpers: represent "4" and "6" vertical columns as vh units */
+.vh-33 { height: 33vh; }
+.vh-50 { height: 50vh; }
+
+/* On small screens, cards should stack and behave normally (no sticky) */
+@media (max-width: 767.98px) {
+  .sticky-card { position: static; transform: none; top: auto; }
+  .vh-33, .vh-50 { height: auto; }
+}
