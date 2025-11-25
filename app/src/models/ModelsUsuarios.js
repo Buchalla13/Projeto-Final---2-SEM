@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes, STRING } = require('sequelize');
 const sequelize = require('../config/db');
 const User = sequelize.define('User', {
  id: {
@@ -26,7 +26,7 @@ senha: {
  allowNull: true
 },
 tipo: {
-    type: DataTypes.ENUM('cliente', 'funcionario', 'admin'),
+    type: DataTypes.STRING(100),
     defaultValue: 'cliente',
     allowNull: true
 },

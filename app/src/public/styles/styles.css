@@ -1,61 +1,18 @@
 :root{
-	--black:#000000;
-	--dark-gray:#1e1e1e; 
-	--card-black:#0b0b0b;
-	--gap:20px;
+  --black:#000000;
+  --dark-gray:#1e1e1e; 
+  --card-black:#0b0b0b;
+  --gap:20px;
 }
 
 body{
     font-family: fantasy;
-    body {
-    background-color: #474350 !important;
-    color: #fff;
-  }
+    background-color: #000;
 }
 
 .logo{
-
   filter: invert(0.3);
 }
-
-
-html,body{
-	height:100%;
- 	margin:0;
- 	padding:0;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-header .navbar, footer{
-	background: linear-gradient(180deg, rgba(0,0,0,1), rgba(30,30,30,1));
-	background-color: var(--black);
-	border:0;
-}
-.navbar-dark .navbar-brand, .navbar-dark .nav-link{
-	color: #fff;
-}
-
-main{
-	background: linear-gradient(0deg, var(--dark-gray) 0%, #111 100%);
-	padding:40px 0;
-	min-height: calc(100vh -  (64px + 64px)); 
-	display:flex;
-	align-items:center; 
-  html, body {
-	  height: 100%;
-	  margin: 0;
-	  padding: 0;
-  }
-
-
-	transition: transform 220ms ease, box-shadow 220ms ease, filter 220ms ease;
-	box-shadow: 0 10px 30px rgba(0,0,0,0.85), 0 2px 6px rgba(255,255,255,0.02) inset;
-}
-
 
 html, body {
   height: 100%;
@@ -69,23 +26,27 @@ body {
   min-height: 100vh;
 }
 
-header .navbar, footer {
+header .navbar, footer{
   background: linear-gradient(180deg, rgba(0,0,0,1), rgba(30,30,30,1));
   background-color: var(--black);
-  border: 0;
+  border:0;
 }
-
-.navbar-dark .navbar-brand,
-.navbar-dark .nav-link {
+.navbar-dark .navbar-brand, .navbar-dark .nav-link{
   color: #fff;
 }
 
+/* Main area: make it fill the remaining viewport space between header and footer
+   and center its content (the login / cadastro card). The page body already
+   uses flex-column (see header.ejs), so main with flex:1 will expand correctly. */
 main {
   background: linear-gradient(0deg, var(--dark-gray) 0%, #111 100%);
   padding: 40px 0;
-  flex: 1 0 auto; 
+  flex: 1 0 auto; /* allow main to grow and fill available vertical space */
   display: flex;
-  align-items: center; 
+  align-items: center;    /* vertical centering of the inner .container/card */
+  justify-content: center; /* horizontal centering */
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.85), 0 2px 6px rgba(255,255,255,0.02) inset;
 }
 
 .card-row {
@@ -124,8 +85,7 @@ footer {
   flex-shrink: 0; 
   color: #fff;
   padding: 18px 0;
-    text-align: center;
-
+  text-align: center;
 }
 
 /* Accessibility / minor tweaks */
@@ -155,13 +115,35 @@ footer {
 }
 
 .btn{
-<<<<<<< HEAD:app/src/public/styles/inicial.css
-    background-color: #FFC857;
-    border-color: #FFC857;
-    color: #000;
+  background-color: #FFC857;
+  border-color: #FFC857;
+  color: #000;
 }
 
-=======
-  background-color: gold;
+/* Ensure buttons have pointer and consistent padding */
+.btn, button, input[type="submit"], .btn-primary {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
 }
->>>>>>> 4aa12a92dd314d6ba56ffc622bf37f4a87cf6c66:app/src/public/styles/styles.css
+
+/* Helpers for cliente view sticky side cards and vertical sizing */
+.sticky-card {
+  position: sticky;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Vertical size helpers: represent "4" and "6" vertical columns as vh units */
+.vh-33 { height: 33vh; }
+.vh-50 { height: 50vh; }
+
+/* On small screens, cards should stack and behave normally (no sticky) */
+@media (max-width: 767.98px) {
+  .sticky-card { position: static; transform: none; top: auto; }
+  .vh-33, .vh-50 { height: auto; }
+}

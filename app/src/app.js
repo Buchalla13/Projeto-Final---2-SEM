@@ -12,6 +12,14 @@ app.use(express.urlencoded({ extended: true }));
 app.set('view engine','ejs')
 app.set('views',__dirname+'/views')
 module.exports = app;
+// imageekit
+const uploadRoutes = require("./routes/uploadRoutes");
+app.use("/api", uploadRoutes);
+
+
+const rotateste = require('./routes/rotateste');
+app.use('/', rotateste);
+
 
 const Routes = require('./routes/Routes');
 app.use('/', Routes);

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Teste de Upload</title>
+    <style>
+        body {
+            font-family: Arial;
+            max-width: 600px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        img {
+            width: 300px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Testar Upload de Imagem</h1>
+
+    <form action="/testar-upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="imagem" required>
+        <button type="submit">Enviar</button>
+    </form>
+    <!-- Exibe a imagem enviada, se houver -->
+    <% if (typeof urlImagem !== 'undefined' && urlImagem) { %>
+        <h2>Imagem Enviada:</h2>
+        <img src="<%= urlImagem %>" alt="Imagem Enviada">
+    <% } %>
+
+    <!-- Exibe mensagem de erro (se houver) -->
+    <% if (typeof erro !== 'undefined' && erro) { %>
+        <p style="color: red;"><%= erro %></p>
+    <% } %>
+
+</body>
+</html>

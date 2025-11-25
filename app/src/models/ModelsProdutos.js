@@ -45,7 +45,7 @@ Cor: {
     allowNull: false
 },
 Imagem: {
-    type: DataTypes.STRING(255),
+    type: DataTypes.TEXT,
     allowNull: true
 },
 
