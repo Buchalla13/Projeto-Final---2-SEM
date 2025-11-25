@@ -1,5 +1,391 @@
 <%- include('partials.ejs/header') %>
 
+    <main class="flex-grow-1">
+        <div class="container py-4">
+            <h2 class="mb-3">Painel do Funcionário</h2>
 
+            <!-- Nav pills -->
+            <ul class="nav nav-pills mb-3" id="funcTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="produtos-tab" data-bs-toggle="pill" data-bs-target="#produtos"
+                        type="button" role="tab">Produtos</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="clientes-tab" data-bs-toggle="pill" data-bs-target="#clientes"
+                        type="button" role="tab">Clientes</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="vendas-tab" data-bs-toggle="pill" data-bs-target="#vendas"
+                        type="button" role="tab">Vendas</button>
+                </li>
+            </ul>
 
-<%- include('partials.ejs/footer') %>
+            <div class="tab-content">
+                <!-- PRODUTOS -->
+                <div class="tab-pane fade show active" id="produtos" role="tabpanel">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div>
+                            <button class="btn btn-primary" id="btnNovoProduto">Novo Produto</button>
+                        </div>
+                        <div>
+                            <input id="searchProduto" class="form-control form-control-sm"
+                                placeholder="Buscar produto..." />
+                        </div>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-body p-2">
+                            <div class="table-responsive">
+                                <table class="table table-dark table-striped mb-0" id="tblProdutos">
+                                    <thead>
+                                        <tr>
+                                            <th>Imagem</th>
+                                            <th>Nome</th>
+                                            <th>Categoria</th>
+                                            <th>Preço</th>
+                                            <th>Estoque</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% if (produtos && produtos.length) { %>
+                                            <% produtos.forEach(function(p){ %>
+                                                <tr data-id="<%= p.id %>">
+                                                    <td><img src="<%= p.imagem || '/images/placeholder.jpg' %>"
+                                                            width="60" /></td>
+                                                    <td>
+                                                        <%= p.nome %>
+                                                    </td>
+                                                    <td>
+                                                        <%= p.categoriaNome || '' %>
+                                                    </td>
+                                                    <td>R$ <%= p.preco %>
+                                                    </td>
+                                                    <td>
+                                                        <%= p.estoque %>
+                                                    </td>
+                                                    <td>
+                                                        <button
+                                                            class="btn btn-sm btn-outline-light btn-editar-produto">Editar</button>
+                                                        <button
+                                                            class="btn btn-sm btn-outline-danger btn-excluir-produto">Excluir</button>
+                                                    </td>
+                                                </tr>
+                                                <% }) %>
+                                                    <% } else { %>
+                                                        <tr>
+                                                            <td colspan="6" class="text-center">Nenhum produto
+                                                                cadastrado</td>
+                                                        </tr>
+                                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CLIENTES -->
+                <div class="tab-pane fade" id="clientes" role="tabpanel">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div>
+                            <!-- podemos ter botão de pesquisa, export, etc -->
+                        </div>
+                        <div>
+                            <input id="searchCliente" class="form-control form-control-sm"
+                                placeholder="Buscar cliente..." />
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body p-2">
+                            <div class="table-responsive">
+                                <table class="table table-dark table-striped mb-0" id="tblClientes">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Email</th>
+                                            <th>CPF</th>
+                                            <th>Endereço</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% if (clientes && clientes.length) { %>
+                                            <% clientes.forEach(function(u){ %>
+                                                <tr data-id="<%= u.id %>">
+                                                    <td>
+                                                        <%= u.nome %>
+                                                    </td>
+                                                    <td>
+                                                        <%= u.email %>
+                                                    </td>
+                                                    <td>
+                                                        <%= u.cpf %>
+                                                    </td>
+                                                    <td>
+                                                        <%= u.endereco %>
+                                                    </td>
+                                                    <td>
+                                                        <button
+                                                            class="btn btn-sm btn-outline-light btn-editar-cliente">Editar</button>
+                                                        <button
+                                                            class="btn btn-sm btn-outline-danger btn-excluir-cliente">Excluir</button>
+                                                    </td>
+                                                </tr>
+                                                <% }) %>
+                                                    <% } else { %>
+                                                        <tr>
+                                                            <td colspan="5" class="text-center">Nenhum cliente</td>
+                                                        </tr>
+                                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VENDAS -->
+                <div class="tab-pane fade" id="vendas" role="tabpanel">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div>
+                            <!-- filtros por data/cliente -->
+                        </div>
+                        <div>
+                            <input id="searchVenda" class="form-control form-control-sm"
+                                placeholder="Buscar venda..." />
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body p-2">
+                            <div class="table-responsive">
+                                <table class="table table-dark table-striped mb-0" id="tblVendas">
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Cliente</th>
+                                            <th>Total</th>
+                                            <th>Data</th>
+                                            <th>Status</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% if (vendas && vendas.length) { %>
+                                            <% vendas.forEach(function(v){ %>
+                                                <tr data-id="<%= v.id %>">
+                                                    <td>
+                                                        <%= v.id %>
+                                                    </td>
+                                                    <td>
+                                                        <%= v.clienteNome %>
+                                                    </td>
+                                                    <td>R$ <%= v.total %>
+                                                    </td>
+                                                    <td>
+                                                        <%= v.createdAt %>
+                                                    </td>
+                                                    <td>
+                                                        <%= v.status %>
+                                                    </td>
+                                                    <td>
+                                                        <button
+                                                            class="btn btn-sm btn-outline-light btn-editar-venda">Editar</button>
+                                                        <button
+                                                            class="btn btn-sm btn-outline-danger btn-excluir-venda">Excluir</button>
+                                                    </td>
+                                                </tr>
+                                                <% }) %>
+                                                    <% } else { %>
+                                                        <tr>
+                                                            <td colspan="6" class="text-center">Nenhuma venda</td>
+                                                        </tr>
+                                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- /.tab-content -->
+        </div>
+    </main>
+
+    <!-- Modais: Produto (criar/editar), Cliente (editar), Venda (editar) e Confirmação -->
+    <!-- Modal Produto -->
+    <div class="modal fade" id="modalProduto" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <form id="formProduto" class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Produto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id" />
+                    <div class="mb-2">
+                        <label class="form-label">Nome</label>
+                        <input name="nome" class="form-control" required />
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Categoria</label>
+                        <input name="categoria" class="form-control" />
+                    </div>
+                    <div class="mb-2 row">
+                        <div class="col">
+                            <label class="form-label">Preço</label>
+                            <input name="preco" type="number" step="0.01" class="form-control" />
+                        </div>
+                        <div class="col">
+                            <label class="form-label">Estoque</label>
+                            <input name="estoque" type="number" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Descrição</label>
+                        <textarea name="descricao" class="form-control"></textarea>
+                    </div>
+                    <!-- Se desejar upload, inclua input file e backend com multer -->
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Confirmação -->
+    <div class="modal fade" id="modalConfirm" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p id="confirmText">Confirmar ação?</p>
+                    <div class="d-flex justify-content-end gap-2">
+                        <button id="confirmCancel" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button id="confirmOk" class="btn btn-danger">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('partials.ejs/footer') %>
+
+        <script>
+            // Frontend helper (exemplos) - adaptar endpoints para seu backend
+            const modalProdutoEl = document.getElementById('modalProduto');
+            const bsModalProduto = new bootstrap.Modal(modalProdutoEl);
+            const formProduto = document.getElementById('formProduto');
+            let currentDelete = null;
+
+            // Abrir modal novo produto
+            document.getElementById('btnNovoProduto').addEventListener('click', () => {
+                formProduto.reset();
+                formProduto.querySelector('[name=id]').value = '';
+                bsModalProduto.show();
+            });
+
+            // Editar produto (delegation)
+            document.getElementById('tblProdutos').addEventListener('click', async (ev) => {
+                const btn = ev.target.closest('button');
+                if (!btn) return;
+                const tr = btn.closest('tr');
+                const id = tr && tr.dataset.id;
+                if (btn.classList.contains('btn-editar-produto')) {
+                    // buscar dados do produto e preencher form
+                    const res = await fetch(`/api/produtos/${id}`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        formProduto.nome.value = data.nome || '';
+                        formProduto.categoria.value = data.categoria || '';
+                        formProduto.preco.value = data.preco || '';
+                        formProduto.estoque.value = data.estoque || '';
+                        formProduto.descricao.value = data.descricao || '';
+                        formProduto.id.value = data.id;
+                        bsModalProduto.show();
+                    } else {
+                        alert('Erro ao carregar produto');
+                    }
+                } else if (btn.classList.contains('btn-excluir-produto')) {
+                    currentDelete = { type: 'produto', id };
+                    document.getElementById('confirmText').textContent = 'Excluir este produto?';
+                    new bootstrap.Modal(document.getElementById('modalConfirm')).show();
+                }
+            });
+
+            // Submeter form produto
+            formProduto.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const id = formProduto.id.value;
+                const payload = {
+                    nome: formProduto.nome.value,
+                    categoria: formProduto.categoria.value,
+                    preco: parseFloat(formProduto.preco.value) || 0,
+                    estoque: parseInt(formProduto.estoque.value) || 0,
+                    descricao: formProduto.descricao.value
+                };
+                const method = id ? 'PUT' : 'POST';
+                const url = id ? `/api/produtos/${id}` : '/api/produtos';
+                const res = await fetch(url, {
+                    method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (res.ok) {
+                    bsModalProduto.hide();
+                    // atualizar tabela: você pode recarregar via fetch /api/produtos e re-renderizar tbody
+                    location.reload(); // forma simples; ideal: atualizar via DOM
+                } else {
+                    alert('Erro ao salvar produto');
+                }
+            });
+
+            // Confirmação de exclusão
+            document.getElementById('confirmOk').addEventListener('click', async () => {
+                if (!currentDelete) return;
+                const { type, id } = currentDelete;
+                let url = '/';
+                if (type === 'produto') url = `/api/produtos/${id}`;
+                if (type === 'cliente') url = `/api/usuarios/${id}`;
+                if (type === 'venda') url = `/api/vendas/${id}`;
+                const res = await fetch(url, { method: 'DELETE' });
+                if (res.ok) {
+                    location.reload();
+                } else {
+                    alert('Erro ao excluir');
+                }
+            });
+
+            // Delegation para clientes e vendas (ex.: editar/excluir)
+            document.getElementById('tblClientes').addEventListener('click', (ev) => {
+                const btn = ev.target.closest('button');
+                if (!btn) return;
+                const tr = btn.closest('tr');
+                const id = tr.dataset.id;
+                if (btn.classList.contains('btn-excluir-cliente')) {
+                    currentDelete = { type: 'cliente', id };
+                    document.getElementById('confirmText').textContent = 'Excluir este cliente?';
+                    new bootstrap.Modal(document.getElementById('modalConfirm')).show();
+                } else if (btn.classList.contains('btn-editar-cliente')) {
+                    // implementar edição: abrir modal similar ao produto
+                    alert('Implementar edição de cliente (modal)');
+                }
+            });
+
+            document.getElementById('tblVendas').addEventListener('click', (ev) => {
+                const btn = ev.target.closest('button');
+                if (!btn) return;
+                const tr = btn.closest('tr');
+                const id = tr.dataset.id;
+                if (btn.classList.contains('btn-excluir-venda')) {
+                    currentDelete = { type: 'venda', id };
+                    document.getElementById('confirmText').textContent = 'Excluir esta venda?';
+                    new bootstrap.Modal(document.getElementById('modalConfirm')).show();
+                } else if (btn.classList.contains('btn-editar-venda')) {
+                    alert('Implementar edição de venda (modal/inline)');
+                }
+            });
+        </script>

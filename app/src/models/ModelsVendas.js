@@ -22,7 +22,7 @@ usuarioV_id: {
 },
 
 total: {
-    type: DataTypes.TEXT,
+    type: DataTypes.DECIMAL(6, 2),
     allowNull: true
 }, 
 
