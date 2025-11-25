@@ -39,6 +39,7 @@ const LoginCliente = async (req, res) => {
         if (!Comparacao_Senha) {
             return res.status(401).send('Senha incorreta');
         }
+        
         req.session.usuario = {
             id: clienteExistente.id,
             nome: clienteExistente.nome,
