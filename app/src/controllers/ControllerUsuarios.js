@@ -1,25 +1,25 @@
 const Usuarios = require('../models/ModelsUsuarios');
 const bcrypt = require('bcrypt');
 exports.listarUsuarios = async (req, res) => {
- try {
- const usuarios = await Usuarios.findAll();
- res.json(usuarios);
- 
- } catch (err) {
- res.status(500).send('Erro ao buscar usuários');
- }
+    try {
+        const usuarios = await Usuarios.findAll();
+        res.json(usuarios);
+
+    } catch (err) {
+        res.status(500).send('Erro ao buscar usuários');
+    }
 };
 
 const inscrever = async (req, res) => {
-    try{
-    let {nome , email, senha, tipo,endereco,cpf} = req.body;
+    try {
+        let { nome, email, senha, tipo, endereco, cpf } = req.body;
 
-    senha = await bcrypt.hash(senha, 10);
-    console.log("senha;"+senha);
+        senha = await bcrypt.hash(senha, 10);
+        console.log("senha;" + senha);
 
-    
 
-    const usuario = await Usuarios.create({nome,email,senha,tipo,endereco,cpf});
+
+        const usuario = await Usuarios.create({ nome, email, senha, tipo, endereco, cpf });
 
         return res.redirect('/login_cliente');
     } catch (error) {
@@ -30,28 +30,17 @@ const inscrever = async (req, res) => {
 
 const LoginCliente = async (req, res) => {
     try {
-        const { nome, email } = req.body; 
-        const clienteExistente = await Usuarios.findOne({ where: { email} });
+        const { nome, email } = req.body;
+        const clienteExistente = await Usuarios.findOne({ where: { email } });
         if (!clienteExistente) {
-            return res.status(404).redirect('/login_cliente?error=notfound');
+            return res.redirect('/login_cliente?error=notfound');
         }
         const Comparacao_Senha = await bcrypt.compare(req.body.senha, clienteExistente.senha);
         if (!Comparacao_Senha) {
-            return res.status(401).redirect('/login_cliente?error=wrong');
+            return res.redirect('/login_cliente?error=wrong');
         }
 
-        
-        req.session.usuario = {
-            id: clienteExistente.id,
-            nome: clienteExistente.nome,
-            email: clienteExistente.email,
-            endereco: clienteExistente.endereco,    
-            cpf: clienteExistente.cpf,
-            tipo: clienteExistente.tipo
-        };
-        res.status(200).send('Login realizado com sucesso');
-
-        // simples sessão (se estiver usando express-session)
+        // armazenar sessão do usuário
         if (req.session) {
             req.session.usuario = {
                 id: clienteExistente.id,
@@ -62,15 +51,52 @@ const LoginCliente = async (req, res) => {
                 tipo: clienteExistente.tipo
             };
         }
-        // redireciona para página inicial após login
+        // redireciona para página inicial após login bem-sucedido
         return res.redirect('/');
 
     }
 
     catch (error) {
         console.error('Erro ao fazer login:', error);
-        return res.status(500).redirect('/login_cliente?error=server');
-    }}
+        return res.redirect('/login_cliente?error=server');
+    }
+}
+
+// inscrição de funcionário
+const inscreverFuncionario = async (req, res) => {
+    try {
+        let { nome, email, senha, endereco, cpf } = req.body;
+
+        // hash da senha
+        senha = await bcrypt.hash(senha, 10);
+
+        // criar usuário com tipo 'funcionario'
+        const usuario = await Usuarios.create({
+            nome,
+            email,
+            senha,
+            tipo: 'funcionario',
+            endereco,
+            cpf
+        });
+
+        // armazenar sessão
+        if (req.session) {
+            req.session.usuario = {
+                id: usuario.id,
+                nome: usuario.nome,
+                email: usuario.email,
+                tipo: 'funcionario'
+            };
+        }
+
+        // redireciona para página inicial após cadastro bem-sucedido
+        return res.redirect('/');
+    } catch (error) {
+        console.error('Erro ao cadastrar funcionário:', error);
+        return res.redirect('/inscrever_funcionario?error=server');
+    }
+};
 
 // login de funcionário por código simples
 const loginFuncionario = async (req, res) => {
@@ -79,13 +105,13 @@ const loginFuncionario = async (req, res) => {
         const secret = process.env.FUNC_CODE || '12345';
         if (codigo === secret) {
             if (req.session) req.session.usuario = { tipo: 'funcionario' };
-            return res.redirect('/trabalhe_conosco');
+            return res.redirect('/');
         }
         return res.redirect('/login_funcionario?error=wrong');
     } catch (error) {
         console.error('Erro login funcionario', error);
-        return res.status(500).redirect('/login_funcionario?error=server');
+        return res.redirect('/login_funcionario?error=server');
     }
 }
 
-module.exports = { inscrever, LoginCliente, loginFuncionario };
+module.exports = { inscrever, LoginCliente, loginFuncionario, inscreverFuncionario };
