@@ -29,6 +29,19 @@ exports.criarProduto = async (req, res) => {
 
     let imagemUrl = null;
 
+    // Validação robusta de categoriaId: converter para inteiro e verificar existência
+    let categoriaIdInt = null;
+    if (typeof categoriaId !== 'undefined' && categoriaId !== null && categoriaId !== '') {
+      const parsed = parseInt(categoriaId, 10);
+      if (!isNaN(parsed)) {
+        const categoria = await Categorias.findByPk(parsed);
+        if (categoria) categoriaIdInt = parsed;
+        else categoriaIdInt = null; // categoria inválida -> armazenar NULL
+      } else {
+        categoriaIdInt = null; // valor não numérico
+      }
+    }
+
     // Se houver arquivo, fazer upload para ImageKit
     if (req.file) {
       const result = await imagekit.upload({
@@ -44,7 +57,7 @@ exports.criarProduto = async (req, res) => {
       nome,
       descricao: descricao || null,
       preco: parseFloat(preco),
-      categoriaId: categoriaId || null,
+      categoriaId: categoriaIdInt,
       Tamanho,
       Cor,
       Imagem: imagemUrl, // Salvar URL da imagem do ImageKit
@@ -110,7 +123,22 @@ exports.atualizarProduto = async (req, res) => {
     if (nome) produto.nome = nome;
     if (descricao) produto.descricao = descricao;
     if (preco) produto.preco = parseFloat(preco);
-    if (categoriaId) produto.categoriaId = categoriaId;
+
+    // Validar categoriaId fornecido na atualização
+    if (typeof categoriaId !== 'undefined') {
+      if (categoriaId === null || categoriaId === '') {
+        produto.categoriaId = null;
+      } else {
+        const parsed = parseInt(categoriaId, 10);
+        if (!isNaN(parsed)) {
+          const categoria = await Categorias.findByPk(parsed);
+          produto.categoriaId = categoria ? parsed : null;
+        } else {
+          produto.categoriaId = null;
+        }
+      }
+    }
+
     if (Tamanho) produto.Tamanho = Tamanho;
     if (Cor) produto.Cor = Cor;
     if (Estoque) produto.Estoque = parseInt(Estoque, 10);

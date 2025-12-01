@@ -7,6 +7,7 @@ const { cliente, funcionario } = require('./middlewares/autenticacao');
 const Vendas = require('./models/ModelsVendas'); // Certifique-se de importar o modelo correto
 const Produtos = require('./models/ModelsProdutos');
 const Usuarios = require('./models/ModelsUsuarios');
+const uploadRoutes = require('./routes/uploadRoutes');
 
 const app = express();
 
@@ -32,10 +33,16 @@ app.get('/funcionario', funcionario, async (req, res) => {
   try {
     const usuarioId = req.session.usuarioId;
 
+    // Buscar dados necessários para renderizar o painel do funcionário
+    const produtos = await Produtos.findAll();
+    const clientes = await Usuarios.findAll({ where: { tipo: 'cliente' } });
+    const vendas = await Vendas.findAll();
+
     res.render('funcionario', {
       usuario: req.session,
       produtos,
       clientes,
+      vendas
     });
   } catch (erro) {
     console.error(erro);
@@ -46,6 +53,9 @@ app.get('/funcionario', funcionario, async (req, res) => {
 
 // Rotas de autenticação
 app.use('/auth', authRouter);
+
+// Rotas de upload/produtos (multer + imagekit)
+app.use('/api', uploadRoutes);
 
 // Rotas principais
 app.use('/', Routes);
