@@ -3,6 +3,7 @@ const express = require('express');
 const session = require('express-session');
 const authRouter = require('./routes/auth');
 const verificarAutenticacao = require('./middlewares/autenticacao');
+const { cliente, funcionario } = require('./middlewares/autenticacao');
 
 const app = express();
 
@@ -28,10 +29,10 @@ app.use(express.static('./src/public'));
 app.use(authRouter);
 
 // Rota do painel do funcionário (protegida)
-app.get('/funcionario', verificarAutenticacao, async (req, res) => {
+app.get('/funcionario', funcionario, async (req, res) => {
   try {
     const usuarioId = req.session.usuarioId;
-    
+
     res.render('funcionario', {
       usuario: req.session,
       produtos: [],
