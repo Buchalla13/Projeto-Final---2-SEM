@@ -76,6 +76,7 @@ router.delete("/api/usuarios/:id", controllerU.deletarUsuario);
 router.get("/api/vendas", controllerV.listarVendas);
 router.get("/api/vendas/:id", controllerV.obterVendaById);
 router.post("/api/vendas", controllerV.criarVenda);
+router.post("/api/vendas/checkout", controllerV.checkout);
 router.put("/api/vendas/:id", controllerV.atualizarVenda);
 router.delete("/api/vendas/:id", controllerV.deletarVenda);
 

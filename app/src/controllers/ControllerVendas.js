@@ -1,5 +1,7 @@
 const Vendas = require('../models/ModelsVendas');
 const ItensVenda = require('../models/Models_itensVenda');
+const Produtos = require('../models/ModelsProdutos');
+const sequelize = require('../config/db');
 
 // GET - Listar todas as vendas
 exports.listarVendas = async (req, res) => {
@@ -149,5 +151,66 @@ exports.criarItemVenda = async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({ erro: 'Erro ao criar item de venda', detalhes: err.message });
+    }
+};
+
+// POST - Checkout: cria venda e itens em transação, checa estoque e debita
+exports.checkout = async (req, res) => {
+    const t = await sequelize.transaction();
+    try {
+        const usuarioId = req.session && req.session.usuario ? req.session.usuario.id : null;
+        const { items } = req.body; // items: [{ produtoId, quantidade, precoUnitario }]
+
+        if (!items || !Array.isArray(items) || items.length === 0) {
+            await t.rollback();
+            return res.status(400).json({ erro: 'Carrinho vazio' });
+        }
+
+        // calcular total no servidor e validar estoque
+        let total = 0;
+        for (const it of items) {
+            const produto = await Produtos.findByPk(it.produtoId, { transaction: t });
+            if (!produto) {
+                await t.rollback();
+                return res.status(404).json({ erro: `Produto ${it.produtoId} não encontrado` });
+            }
+            const qty = parseInt(it.quantidade, 10) || 1;
+            if (produto.Estoque < qty) {
+                await t.rollback();
+                return res.status(400).json({ erro: `Estoque insuficiente para ${produto.nome}` });
+            }
+            const preco = parseFloat(it.precoUnitario) || parseFloat(produto.preco) || 0;
+            total += preco * qty;
+        }
+
+        const venda = await Vendas.create({
+            usuarioId,
+            data: new Date(),
+            status: 'pendente',
+            total: parseFloat(total.toFixed(2))
+        }, { transaction: t });
+
+        for (const it of items) {
+            const produto = await Produtos.findByPk(it.produtoId, { transaction: t });
+            const qty = parseInt(it.quantidade, 10) || 1;
+            const preco = parseFloat(it.precoUnitario) || parseFloat(produto.preco) || 0;
+
+            await ItensVenda.create({
+                vendaId: venda.id,
+                produtoId: it.produtoId,
+                quantidade: qty,
+                precoUnitario: preco
+            }, { transaction: t });
+
+            produto.Estoque = produto.Estoque - qty;
+            await produto.save({ transaction: t });
+        }
+
+        await t.commit();
+        return res.status(201).json({ sucesso: true, vendaId: venda.id });
+    } catch (err) {
+        await t.rollback();
+        console.error(err);
+        return res.status(500).json({ erro: 'Erro ao processar compra', detalhes: err.message });
     }
 };

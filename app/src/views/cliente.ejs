@@ -16,17 +16,23 @@
 				<section id="produtos" class="col-12 col-md">
 					<div class="container-fluid h-100">
 						<div class="row g-3" id="produtos-grid">
-							<!-- aqui fica os bagui dos goats, os produtin -->
+							
 						</div>
 					</div>
 				</section>
 
 				<aside class="col-12 col-md-3 d-flex justify-content-center mt-3 mt-md-0">
 					<div class="card sticky-card w-100 vh-50 p-3">
-						<div class="card-body text-center">
+						<div class="card-body">
 							<h5 class="card-title">Carrinho</h5>
-							<p class="card-text small">EU NN QUERO, EU NN QUERO, EU NAO SUPORTO MAAAAIISSSS</p>
-							<a href="/carrinho" class="btn btn-sm btn-outline-light">BUUUUU</a>
+							<ul id="cart-items" class="list-group mb-3 text-start"></ul>
+														<div class="d-flex justify-content-between align-items-center">
+																<div>
+																	<button id="clear-cart" class="btn btn-sm btn-danger me-2">Limpar</button>
+																	<button id="checkout-btn" class="btn btn-sm btn-success">Finalizar compra</button>
+																</div>
+																<span id="cart-count">0 itens</span>
+														</div>
 						</div>
 					</div>
 				</aside>
@@ -34,4 +40,137 @@
 			</div>
 		</div>
 	</main>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const produtosGrid = document.getElementById('produtos-grid');
+			const cartItemsEl = document.getElementById('cart-items');
+			const cartCountEl = document.getElementById('cart-count');
+			const clearBtn = document.getElementById('clear-cart');
+			const checkoutBtn = document.getElementById('checkout-btn');
+
+			let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+			function saveCart() {
+				localStorage.setItem('cart', JSON.stringify(cart));
+			}
+
+			function renderCart() {
+				cartItemsEl.innerHTML = '';
+				if (!cart.length) {
+					const li = document.createElement('li');
+					li.className = 'list-group-item text-muted';
+					li.textContent = 'Carrinho vazio';
+					cartItemsEl.appendChild(li);
+				} else {
+					cart.forEach(item => {
+						const li = document.createElement('li');
+						li.className = 'list-group-item d-flex justify-content-between align-items-center';
+						li.innerHTML = `<span>${item.nome}</span><button class="btn btn-sm btn-outline-danger remove-cart" data-id="${item.id}">Remover</button>`;
+						cartItemsEl.appendChild(li);
+					});
+				}
+				cartCountEl.textContent = `${cart.length} item${cart.length !== 1 ? 's' : ''}`;
+				// update add buttons state
+				document.querySelectorAll('.add-cart-btn').forEach(btn => {
+					const id = Number(btn.dataset.id);
+					btn.disabled = cart.some(i => i.id === id);
+					btn.textContent = btn.disabled ? 'Adicionado' : 'Adicionar ao carrinho';
+				});
+			}
+
+			function addToCart(prod) {
+				if (cart.some(i => i.id === prod.id)) return;
+				cart.push({ id: prod.id, nome: prod.nome });
+				saveCart();
+				renderCart();
+			}
+
+			function removeFromCart(id) {
+				cart = cart.filter(i => i.id !== id);
+				saveCart();
+				renderCart();
+			}
+
+			clearBtn.addEventListener('click', function () {
+				cart = [];
+				saveCart();
+				renderCart();
+			});
+
+			checkoutBtn.addEventListener('click', async function () {
+				if (!cart.length) return alert('Carrinho vazio');
+				const items = cart.map(i => ({ produtoId: i.id, quantidade: 1 }));
+
+				checkoutBtn.disabled = true;
+				checkoutBtn.textContent = 'Processando...';
+
+				try {
+					const res = await fetch('/api/vendas/checkout', {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({ items })
+					});
+
+					const data = await res.json();
+					if (res.ok) {
+						cart = [];
+						saveCart();
+						renderCart();
+						alert('Compra finalizada. Pedido #' + data.vendaId);
+					} else {
+						alert('Erro: ' + (data.erro || data.mensagem || 'Falha ao finalizar compra'));
+					}
+				} catch (err) {
+					alert('Erro de rede ao finalizar compra');
+				} finally {
+					checkoutBtn.disabled = false;
+					checkoutBtn.textContent = 'Finalizar compra';
+				}
+			});
+
+			cartItemsEl.addEventListener('click', function (e) {
+				if (e.target && e.target.matches('.remove-cart')) {
+					const id = Number(e.target.dataset.id);
+					removeFromCart(id);
+				}
+			});
+
+			function renderProductCard(prod) {
+				const col = document.createElement('div');
+				col.className = 'col-12 col-sm-6 col-md-4 col-lg-3';
+				const imgSrc = prod.Imagem || 'https://via.placeholder.com/400x300?text=Sem+imagem';
+				const preco = prod.preco !== undefined ? Number(prod.preco).toFixed(2) : '0.00';
+				col.innerHTML = `
+					<div class="card h-100">
+						<img src="${imgSrc}" class="card-img-top" alt="${prod.nome}">
+						<div class="card-body d-flex flex-column">
+							<h5 class="card-title">${prod.nome}</h5>
+							<p class="card-text mb-1">R$ ${preco}</p>
+							<p class="small text-muted mb-2">Tamanho: ${prod.Tamanho || '-'} • Cor: ${prod.Cor || '-'}</p>
+							<div class="mt-auto">
+								<button class="btn btn-sm btn-warning w-100 add-cart-btn" data-id="${prod.id}">Adicionar ao carrinho</button>
+							</div>
+						</div>
+					</div>`;
+				produtosGrid.appendChild(col);
+				const btn = col.querySelector('.add-cart-btn');
+				btn.addEventListener('click', function () {
+					addToCart({ id: prod.id, nome: prod.nome });
+				});
+			}
+
+			fetch('/api/produtos')
+				.then(res => res.json())
+				.then(produtos => {
+					produtosGrid.innerHTML = '';
+					produtos.forEach(p => renderProductCard(p));
+					renderCart();
+				})
+				.catch(() => {
+					produtosGrid.innerHTML = '<div class="col-12"><p class="text-center text-muted">Erro ao carregar produtos.</p></div>';
+				});
+		});
+	</script>
+
 	<%- include('partials.ejs/footer') %>
