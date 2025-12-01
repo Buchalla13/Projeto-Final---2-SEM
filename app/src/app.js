@@ -28,6 +28,22 @@ app.set('view engine', 'ejs');
 app.set('views', './src/views');
 app.use(express.static('./src/public'));
 
+app.get('/funcionario', funcionario, async (req, res) => {
+  try {
+    const usuarioId = req.session.usuarioId;
+
+    res.render('funcionario', {
+      usuario: req.session,
+      produtos,
+      clientes,
+    });
+  } catch (erro) {
+    console.error(erro);
+    res.status(500).send('Erro ao carregar painel');
+  }
+});
+
+
 // Rotas de autenticação
 app.use('/auth', authRouter);
 
