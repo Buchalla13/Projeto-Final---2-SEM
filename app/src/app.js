@@ -2,11 +2,10 @@ require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const authRouter = require('./routes/auth');
-
+const verificarAutenticacao = require('./middlewares/autenticacao');
 const Produtos = require('./models/ModelsProdutos');
 const Usuarios = require('./models/ModelsUsuarios');
 const routes = require('./routes/Routes');
-const { funcionario } = require('./middlewares/autenticacao');
 
 const app = express();
 
@@ -32,7 +31,7 @@ app.use(express.static('./public')); // ajuste para o caminho correto dos assets
 app.use('/auth', authRouter);
 
 // Painel do funcionário (rota protegida)
-app.get('/funcionario', funcionario, async (req, res) => {
+app.get('/funcionario', verificarAutenticacao, async (req, res) => {
   try {
     const produtos = await Produtos.findAll({ include: 'categoria' });
     const clientes = await Usuarios.findAll({ where: { tipo: 'cliente' } });
@@ -40,7 +39,7 @@ app.get('/funcionario', funcionario, async (req, res) => {
     res.render('funcionario', {
       usuario: req.session.usuario,
       produtos,
-      clientes,
+      clientes
     });
   } catch (erro) {
     console.error(erro);
