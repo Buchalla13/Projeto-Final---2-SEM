@@ -47,7 +47,7 @@ ItensVenda.belongsTo(Produtos, {
 
 const sincronizar = async () => {
   try {
-    await sequelize.sync({ alter: false });
+    await sequelize.sync({ alter: true });
     process.exit(0);
   } catch (erro) {
     process.exit(1);

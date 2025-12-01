@@ -1,60 +1,52 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
-
-const Itens = sequelize.define('Itens', {
-
-id: {
+const ItensVenda = sequelize.define('ItensVenda', {
+  id: {
     type: DataTypes.INTEGER,
+    autoIncrement: true,
     primaryKey: true,
-    autoIncrement: true
-},
-
-Venda_id: {
+  },
+  Venda_id: {
     type: DataTypes.INTEGER,
     references: {
-    model: 'Vendas',
-    key: 'id'
+      model: 'Vendas',
+      key: 'id',
+    },
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
   },
-  onUpdate: 'CASCADE',
-  onDelete: 'SET NULL'
-},
-
-Produto_id: {
+  Produto_id: {
     type: DataTypes.INTEGER,
     references: {
-    model: 'Produtos',
-    key: 'id'
+      model: 'Produtos',
+      key: 'id',
+    },
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
   },
-  onUpdate: 'CASCADE',
-  onDelete: 'SET NULL'
-}, 
-
-quantidade:{
+  UsuarioI_id: {
     type: DataTypes.INTEGER,
-    allowNull: false
-},
-preco_unitario: {
-    type: DataTypes.DECIMAL(10, 2),
-    allowNull: false
-},
-subtotal: {
-    type: DataTypes.DECIMAL(10, 2),
-    allowNull: false
-},
-
-UsuarioI_id: {
-  type: DataTypes.INTEGER,
-  allowNull: false,
-  references: {
-    model: 'Usuarios',
-    key: 'id'
+    allowNull: true, // Permitir valores NULL
+    references: {
+      model: 'Usuarios',
+      key: 'id',
+    },
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
   },
-  onUpdate: 'CASCADE',
-  onDelete: 'SET NULL'
-}
-}, {
- tableName: 'Itens_Venda',
- timestamps: false
+  quantidade: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  preco_unitario: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
+  },
+  subtotal: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
+  },
 });
-module.exports = Itens;
+
+module.exports = ItensVenda;
