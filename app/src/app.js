@@ -1,18 +1,21 @@
-require('dotenv').config(); //Do Buchalla!!!
+require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const authRouter = require('./routes/auth');
 const verificarAutenticacao = require('./middlewares/autenticacao');
+const Produtos = require('./models/ModelsProdutos');
+const Usuarios = require('./models/ModelsUsuarios');
+const routes = require('./routes/Routes');
 
 const app = express();
 
-// Configurar sessão
+// Configuração da sessão
 app.use(session({
-  secret: 'sua_chave_secreta_aqui',
+  secret: process.env.SESSION_SECRET || 'sua_chave_secreta_aqui',
   resave: false,
   saveUninitialized: false,
   cookie: { 
-    secure: false, // true em produção com HTTPS
+    secure: false,
     maxAge: 1000 * 60 * 60 * 24 // 24 horas
   }
 }));
@@ -21,21 +24,22 @@ app.use(session({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
-app.set('views', './src/views');
-app.use(express.static('./src/public'));
+app.set('views', './views'); // ajuste para o caminho correto das views
+app.use(express.static('./public')); // ajuste para o caminho correto dos assets
 
 // Rotas de autenticação
-app.use(authRouter);
+app.use('/auth', authRouter);
 
-// Rota do painel do funcionário (protegida)
+// Painel do funcionário (rota protegida)
 app.get('/funcionario', verificarAutenticacao, async (req, res) => {
   try {
-    const usuarioId = req.session.usuarioId;
-    
+    const produtos = await Produtos.findAll({ include: 'categoria' });
+    const clientes = await Usuarios.findAll({ where: { tipo: 'cliente' } });
+
     res.render('funcionario', {
-      usuario: req.session,
-      produtos: [],
-      clientes: []
+      usuario: req.session.usuario,
+      produtos,
+      clientes
     });
   } catch (erro) {
     console.error(erro);
@@ -43,14 +47,11 @@ app.get('/funcionario', verificarAutenticacao, async (req, res) => {
   }
 });
 
-// imageekit
-const uploadRoutes = require("./routes/uploadRoutes");
-app.use("/api", uploadRoutes);
+// Página inicial
+app.get('/', (req, res) => {
+  res.render('inicial');
+});
 
-const rotateste = require('./routes/rotateste');
-app.use('/', rotateste);
-
-const Routes = require('./routes/Routes');
-app.use('/', Routes);
+app.use('/', routes);
 
 module.exports = app;
