@@ -4,6 +4,9 @@ const session = require('express-session');
 const authRouter = require('./routes/auth');
 const verificarAutenticacao = require('./middlewares/autenticacao');
 const { cliente, funcionario } = require('./middlewares/autenticacao');
+const Vendas = require('./models/ModelsVendas'); // Certifique-se de importar o modelo correto
+const Produtos = require('./models/ModelsProdutos');
+const Usuarios = require('./models/ModelsUsuarios');
 
 const app = express();
 
@@ -26,32 +29,8 @@ app.set('views', './src/views');
 app.use(express.static('./src/public'));
 
 // Rotas de autenticação
-app.use(authRouter);
+app.use('/auth', authRouter);
 
-// Rota do painel do funcionário (protegida)
-app.get('/funcionario', funcionario, async (req, res) => {
-  try {
-    const usuarioId = req.session.usuarioId;
-
-    res.render('funcionario', {
-      usuario: req.session,
-      produtos: [],
-      clientes: []
-    });
-  } catch (erro) {
-    console.error(erro);
-    res.status(500).send('Erro ao carregar painel');
-  }
-});
-
-// imageekit
-const uploadRoutes = require("./routes/uploadRoutes");
-app.use("/api", uploadRoutes);
-
-const rotateste = require('./routes/rotateste');
-app.use('/', rotateste);
-
-const Routes = require('./routes/Routes');
 app.use('/', Routes);
 
 module.exports = app;

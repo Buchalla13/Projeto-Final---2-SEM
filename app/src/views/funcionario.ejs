@@ -23,191 +23,97 @@
             <div class="tab-content">
                 <!-- PRODUTOS -->
                 <div class="tab-pane fade show active" id="produtos" role="tabpanel">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <div>
-                            <button class="btn btn-primary" id="btnNovoProduto">Novo Produto</button>
-                        </div>
-                        <div>
-                            <input id="searchProduto" class="form-control form-control-sm"
-                                placeholder="Buscar produto..." />
-                        </div>
-                    </div>
-
-                    <div class="card mb-4">
-                        <div class="card-body p-2">
-                            <div class="table-responsive">
-                                <table class="table table-dark table-striped mb-0" id="tblProdutos">
-                                    <thead>
+                    <div class="table-responsive">
+                        <table class="table table-dark table-striped mb-0" id="tblProdutos">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Categoria</th>
+                                    <th>Preço</th>
+                                    <th>Estoque</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (produtos && produtos.length) { %>
+                                    <% produtos.forEach(produto => { %>
                                         <tr>
-                                            <th>Imagem</th>
-                                            <th>Nome</th>
-                                            <th>Categoria</th>
-                                            <th>Preço</th>
-                                            <th>Estoque</th>
-                                            <th>Ações</th>
+                                            <td><%= produto.id %></td>
+                                            <td><%= produto.nome %></td>
+                                            <td><%= produto.categoriaId %></td>
+                                            <td><%= produto.preco %></td>
+                                            <td><%= produto.estoque %></td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% if (produtos && produtos.length) { %>
-                                            <% produtos.forEach(function(p){ %>
-                                                <tr data-id="<%= p.id %>">
-                                                    <td><img src="<%= p.imagem || '/images/placeholder.jpg' %>"
-                                                            width="60" /></td>
-                                                    <td>
-                                                        <%= p.nome %>
-                                                    </td>
-                                                    <td>
-                                                        <%= p.categoriaNome || '' %>
-                                                    </td>
-                                                    <td>R$ <%= p.preco %>
-                                                    </td>
-
-                                                    <td>
-                                                        <%= p.estoque %>
-                                                    </td>
-                                                    <td>
-                                                        <button
-                                                            class="btn btn-sm btn-outline-light btn-editar-produto">Editar</button>
-                                                        <button
-                                                            class="btn btn-sm btn-outline-danger btn-excluir-produto">Excluir</button>
-                                                    </td>
-                                                </tr>
-                                                <% }) %>
-                                                    <% } else { %>
-                                                        <tr>
-                                                            <td colspan="6" class="text-center">Nenhum produto
-                                                                cadastrado</td>
-                                                        </tr>
-                                                        <% } %>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                                    <% }) %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="5">Nenhum produto encontrado</td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
                 <!-- CLIENTES -->
                 <div class="tab-pane fade" id="clientes" role="tabpanel">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <div>
-                            <!-- podemos ter botão de pesquisa, export, etc -->
-                        </div>
-                        <div>
-                            <input id="searchCliente" class="form-control form-control-sm"
-                                placeholder="Buscar cliente..." />
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-body p-2">
-                            <div class="table-responsive">
-                                <table class="table table-dark table-striped mb-0" id="tblClientes">
-                                    <thead>
+                    <div class="table-responsive">
+                        <table class="table table-dark table-striped mb-0" id="tblClientes">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (clientes && clientes.length) { %>
+                                    <% clientes.forEach(cliente => { %>
                                         <tr>
-                                            <th>Nome</th>
-                                            <th>Email</th>
-                                            <th>CPF</th>
-                                            <th>Endereço</th>
-                                            <th>Ações</th>
+                                            <td><%= cliente.id %></td>
+                                            <td><%= cliente.nome %></td>
+                                            <td><%= cliente.email %></td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% if (clientes && clientes.length) { %>
-                                            <% clientes.forEach(function(u){ %>
-                                                <tr data-id="<%= u.id %>">
-                                                    <td>
-                                                        <%= u.nome %>
-                                                    </td>
-                                                    <td>
-                                                        <%= u.email %>
-                                                    </td>
-                                                    <td>
-                                                        <%= u.cpf %>
-                                                    </td>
-                                                    <td>
-                                                        <%= u.endereco %>
-                                                    </td>
-                                                    <td>
-                                                        <button
-                                                            class="btn btn-sm btn-outline-light btn-editar-cliente">Editar</button>
-                                                        <button
-                                                            class="btn btn-sm btn-outline-danger btn-excluir-cliente">Excluir</button>
-                                                    </td>
-                                                </tr>
-                                                <% }) %>
-                                                    <% } else { %>
-                                                        <tr>
-                                                            <td colspan="5" class="text-center">Nenhum cliente</td>
-                                                        </tr>
-                                                        <% } %>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                                    <% }) %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="3">Nenhum cliente encontrado</td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
                 <!-- VENDAS -->
                 <div class="tab-pane fade" id="vendas" role="tabpanel">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <div>
-                            <!-- filtros por data/cliente -->
-                        </div>
-                        <div>
-                            <input id="searchVenda" class="form-control form-control-sm"
-                                placeholder="Buscar venda..." />
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-body p-2">
-                            <div class="table-responsive">
-                                <table class="table table-dark table-striped mb-0" id="tblVendas">
-                                    <thead>
+                    <div class="table-responsive">
+                        <table class="table table-dark table-striped mb-0" id="tblVendas">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Cliente</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (vendas && vendas.length) { %>
+                                    <% vendas.forEach(venda => { %>
                                         <tr>
-                                            <th>Id</th>
-                                            <th>Cliente</th>
-                                            <th>Total</th>
-                                            <th>Data</th>
-                                            <th>Status</th>
-                                            <th>Ações</th>
+                                            <td><%= venda.id %></td>
+                                            <td><%= venda.usuarioV_id %></td>
+                                            <td><%= venda.total %></td>
+                                            <td><%= venda.tipo %></td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% if (vendas && vendas.length) { %>
-                                            <% vendas.forEach(function(v){ %>
-                                                <tr data-id="<%= v.id %>">
-                                                    <td>
-                                                        <%= v.id %>
-                                                    </td>
-                                                    <td>
-                                                        <%= v.clienteNome %>
-                                                    </td>
-                                                    <td>R$ <%= v.total %>
-                                                    </td>
-                                                    <td>
-                                                        <%= v.createdAt %>
-                                                    </td>
-                                                    <td>
-                                                        <%= v.status %>
-                                                    </td>
-                                                    <td>
-                                                        <button
-                                                            class="btn btn-sm btn-outline-light btn-editar-venda">Editar</button>
-                                                        <button
-                                                            class="btn btn-sm btn-outline-danger btn-excluir-venda">Excluir</button>
-                                                    </td>
-                                                </tr>
-                                                <% }) %>
-                                                    <% } else { %>
-                                                        <tr>
-                                                            <td colspan="6" class="text-center">Nenhuma venda</td>
-                                                        </tr>
-                                                        <% } %>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                                    <% }) %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="4">Nenhuma venda encontrada</td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
