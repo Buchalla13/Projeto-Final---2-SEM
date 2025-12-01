@@ -98,7 +98,11 @@ exports.LoginCliente = async (req, res) => {
             };
         }
 
-        return res.redirect('/cliente');
+        if(tipo=="funcionario"){
+            return res.redirect("/funcionario")
+        } else{if(tipo=="cliente"){
+            return res.redirect("/cliente")
+        }}
     } catch (error) {
         console.error('Erro ao fazer login:', error);
         return res.redirect('/login_cliente?error=server');
