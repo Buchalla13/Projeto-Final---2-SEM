@@ -30,7 +30,7 @@ router.get("/login_cliente", (req, res) => res.render("login_cliente"));
 router.get("/login_funcionario", (req, res) => res.render("funcionario"));
 
 // /trabalhe_conosco -> funcionario.ejs
-router.get("/trabalhe_conosco", (req, res) => res.render("funcionario"));
+router.get("/funcionario", (req, res) => res.render("funcionario"));
 
 // /sobre -> sobre.ejs
 router.get("/sobre", (req, res) => res.render("sobre"));

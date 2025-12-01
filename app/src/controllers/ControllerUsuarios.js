@@ -98,9 +98,9 @@ exports.LoginCliente = async (req, res) => {
             };
         }
 
-        if(tipo=="funcionario"){
+        if(clienteExistente.tipo=="funcionario"){
             return res.redirect("/funcionario")
-        } else{if(tipo=="cliente"){
+        } else{if(clienteExistente.tipo=="cliente"){
             return res.redirect("/cliente")
         }}
     } catch (error) {
