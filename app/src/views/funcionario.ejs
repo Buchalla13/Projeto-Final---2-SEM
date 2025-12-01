@@ -23,6 +23,9 @@
             <div class="tab-content">
                 <!-- PRODUTOS -->
                 <div class="tab-pane fade show active" id="produtos" role="tabpanel">
+                    <div class="d-flex justify-content-end mb-2">
+                        <button id="btnNovoProduto" class="btn btn-sm btn-success">Novo Produto</button>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-dark table-striped mb-0" id="tblProdutos">
                             <thead>
@@ -37,14 +40,14 @@
                             <tbody>
                                 <% if (produtos && produtos.length) { %>
                                     <% produtos.forEach(produto => { %>
-                                        <tr>
-                                            <td><%= produto.id %></td>
-                                            <td><%= produto.nome %></td>
-                                            <td><%= produto.categoriaId %></td>
-                                            <td><%= produto.preco %></td>
-                                            <td><%= produto.estoque %></td>
-                                        </tr>
-                                    <% }) %>
+                                            <tr data-id="<%= produto.id %>">
+                                                <td><%= produto.id %></td>
+                                                <td><%= produto.nome %></td>
+                                                <td><%= produto.categoriaId %></td>
+                                                <td><%= produto.preco %></td>
+                                                <td><%= produto.Estoque || produto.estoque %></td>
+                                            </tr>
+                                        <% }) %>
                                 <% } else { %>
                                     <tr>
                                         <td colspan="5">Nenhum produto encontrado</td>
@@ -69,7 +72,7 @@
                             <tbody>
                                 <% if (clientes && clientes.length) { %>
                                     <% clientes.forEach(cliente => { %>
-                                        <tr>
+                                        <tr data-id="<%= cliente.id %>">
                                             <td><%= cliente.id %></td>
                                             <td><%= cliente.nome %></td>
                                             <td><%= cliente.email %></td>
@@ -100,7 +103,7 @@
                             <tbody>
                                 <% if (vendas && vendas.length) { %>
                                     <% vendas.forEach(venda => { %>
-                                        <tr>
+                                        <tr data-id="<%= venda.id %>">
                                             <td><%= venda.id %></td>
                                             <td><%= venda.usuarioV_id %></td>
                                             <td><%= venda.total %></td>
@@ -124,8 +127,8 @@
     <!-- Modais: Produto (criar/editar), Cliente (editar), Venda (editar) e Confirmação -->
     <!-- Modal Produto -->
     <div class="modal fade" id="modalProduto" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <form id="formProduto" class="modal-content">
+            <div class="modal-dialog modal-lg">
+            <form id="formProduto" class="modal-content" enctype="multipart/form-data">
                 <div class="modal-header">
                     <h5 class="modal-title">Produto</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -137,8 +140,8 @@
                         <input name="nome" class="form-control" required />
                     </div>
                     <div class="mb-2">
-                        <label class="form-label">Categoria</label>
-                        <input name="categoria" class="form-control" />
+                        <label class="form-label">Categoria (ID)</label>
+                        <input name="categoriaId" class="form-control" />
                     </div>
                     <div class="mb-2 row">
                         <div class="col">
@@ -146,15 +149,27 @@
                             <input name="preco" type="number" step="0.01" class="form-control" />
                         </div>
                         <div class="col">
+                            <label class="form-label">Tamanho</label>
+                            <input name="Tamanho" class="form-control" />
+                        </div>
+                        <div class="col">
+                            <label class="form-label">Cor</label>
+                            <input name="Cor" class="form-control" />
+                        </div>
+                        <div class="col">
                             <label class="form-label">Estoque</label>
-                            <input name="estoque" type="number" class="form-control" />
+                            <input name="Estoque" type="number" class="form-control" />
                         </div>
                     </div>
                     <div class="mb-2">
                         <label class="form-label">Descrição</label>
                         <textarea name="descricao" class="form-control"></textarea>
                     </div>
-                    <!-- Se desejar upload, inclua input file e backend com multer -->
+                    <!-- Upload de imagem -->
+                    <div class="mb-2">
+                        <label class="form-label">Imagem</label>
+                        <input type="file" name="imagem" accept="image/*" class="form-control" />
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Salvar</button>
@@ -201,15 +216,17 @@
                 if (!btn) return;
                 const tr = btn.closest('tr');
                 const id = tr && tr.dataset.id;
-                if (btn.classList.contains('btn-editar-produto')) {
+                    if (btn.classList.contains('btn-editar-produto')) {
                     // buscar dados do produto e preencher form
                     const res = await fetch(`/api/produtos/${id}`);
                     if (res.ok) {
                         const data = await res.json();
                         formProduto.nome.value = data.nome || '';
-                        formProduto.categoria.value = data.categoria || '';
+                        formProduto.categoriaId.value = data.categoriaId || (data.categoria && data.categoria.id) || '';
                         formProduto.preco.value = data.preco || '';
-                        formProduto.estoque.value = data.estoque || '';
+                        formProduto.Tamanho.value = data.Tamanho || '';
+                        formProduto.Cor.value = data.Cor || '';
+                        formProduto.Estoque.value = data.Estoque || data.estoque || '';
                         formProduto.descricao.value = data.descricao || '';
                         formProduto.id.value = data.id;
                         bsModalProduto.show();
@@ -223,30 +240,45 @@
                 }
             });
 
-            // Submeter form produto
+            // Submeter form produto (com suporte a upload)
             formProduto.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const id = formProduto.id.value;
-                const payload = {
-                    nome: formProduto.nome.value,
-                    categoria: formProduto.categoria.value,
-                    preco: parseFloat(formProduto.preco.value) || 0,
-                    estoque: parseInt(formProduto.estoque.value) || 0,
-                    descricao: formProduto.descricao.value
-                };
-                const method = id ? 'PUT' : 'POST';
-                const url = id ? `/api/produtos/${id}` : '/api/produtos';
+
+                const formData = new FormData();
+                formData.append('nome', formProduto.nome.value);
+                formData.append('descricao', formProduto.descricao.value || '');
+                formData.append('preco', formProduto.preco.value || 0);
+                formData.append('categoriaId', formProduto.categoriaId.value || '');
+                formData.append('Tamanho', formProduto.Tamanho.value || '');
+                formData.append('Cor', formProduto.Cor.value || '');
+                formData.append('Estoque', formProduto.Estoque.value || 0);
+
+                const fileInput = formProduto.querySelector('[name=imagem]');
+                if (fileInput && fileInput.files && fileInput.files[0]) {
+                    formData.append('imagem', fileInput.files[0]);
+                }
+
+                let url, method;
+                if (id) {
+                    url = `/api/produtos/${id}`; // uploadRoutes handles PUT with multer
+                    method = 'PUT';
+                } else {
+                    url = '/api/produtos/upload';
+                    method = 'POST';
+                }
+
                 const res = await fetch(url, {
                     method,
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    body: formData
                 });
+
                 if (res.ok) {
                     bsModalProduto.hide();
-                    // atualizar tabela: você pode recarregar via fetch /api/produtos e re-renderizar tbody
-                    location.reload(); // forma simples; ideal: atualizar via DOM
+                    location.reload();
                 } else {
-                    alert('Erro ao salvar produto');
+                    const txt = await res.text().catch(() => null);
+                    alert('Erro ao salvar produto' + (txt ? (': ' + txt) : ''));
                 }
             });
 
