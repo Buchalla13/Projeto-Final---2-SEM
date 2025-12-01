@@ -20,3 +20,8 @@ exports.paginaInicial = (req, res) => {
   // renderiza a view 'inicial.ejs'
   res.render('inicial');
 };
+
+exports.paginaCliente = (req, res) => {
+  // renderiza a view 'cliente.ejs'
+  res.render('cliente');
+};
