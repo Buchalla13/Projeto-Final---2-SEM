@@ -7,7 +7,6 @@ const { cliente, funcionario } = require('./middlewares/autenticacao');
 const Vendas = require('./models/ModelsVendas'); // Certifique-se de importar o modelo correto
 const Produtos = require('./models/ModelsProdutos');
 const Usuarios = require('./models/ModelsUsuarios');
-const Routes = require('./routes/Routes')
 
 const app = express();
 
