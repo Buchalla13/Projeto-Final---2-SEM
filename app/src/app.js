@@ -2,7 +2,7 @@ require('dotenv').config(); //Do Buchalla!!!
 const express = require('express');
 const session = require('express-session');
 const authRouter = require('./routes/auth');
-const verificarAutenticacao = require('./middlewares/autenticacao');
+const Routes = require('./routes/Routes'); // Corrigido
 const { cliente, funcionario } = require('./middlewares/autenticacao');
 const Vendas = require('./models/ModelsVendas'); // Certifique-se de importar o modelo correto
 const Produtos = require('./models/ModelsProdutos');
@@ -31,6 +31,7 @@ app.use(express.static('./src/public'));
 // Rotas de autenticação
 app.use('/auth', authRouter);
 
+// Rotas principais
 app.use('/', Routes);
 
 module.exports = app;
