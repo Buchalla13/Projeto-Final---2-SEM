@@ -9,6 +9,6 @@ module.exports = {
     if (req.session.usuario && req.session.usuario.tipo === 'funcionario') {
       return next();
     }
-    res.redirect('/login-funcionario');
+    res.redirect('/auth/login-funcionario');
   },
 };
