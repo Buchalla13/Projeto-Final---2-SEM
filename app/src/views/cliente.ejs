@@ -3,17 +3,8 @@
 		<div class="container py-4">
 			<div class="row min-vh-75 gx-4 align-items-stretch">
 
-				<aside class="col-12 col-md-3 d-flex justify-content-center mb-3 mb-md-0">
-					<div class="card sticky-card w-100 vh-33 p-3">
-						<div class="card-body text-center">
-							<h5 class="card-title">Filtrar produtos</h5>
-							<p class="card-text small">aqui vai ter uns filtros, mas mó trampo pra agora</p>
-							<a href="#produtos" class="btn btn-sm btn-primary">BAAAAAAAAA</a>
-						</div>
-					</div>
-				</aside>
 
-				<section id="produtos" class="col-12 col-md">
+				<section id="produtos" class="col-12">
 					<div class="container-fluid h-100">
 						<div class="row g-3" id="produtos-grid">
 							
@@ -21,8 +12,12 @@
 					</div>
 				</section>
 
-				<aside class="col-12 col-md-3 d-flex justify-content-center mt-3 mt-md-0">
-					<div class="card sticky-card w-100 vh-50 p-3">
+			</div>
+
+		</div>
+		<!-- cart aside: fixed to right on desktop, centered vertically -->
+		<aside id="cart-aside" class="cart-aside d-flex align-items-center justify-content-center">
+			<div class="card cart-card p-3">
 						<div class="card-body">
 							<h5 class="card-title">Carrinho</h5>
 							<ul id="cart-items" class="list-group mb-3 text-start"></ul>
@@ -36,9 +31,6 @@
 						</div>
 					</div>
 				</aside>
-
-			</div>
-		</div>
 	</main>
 
 	<script>

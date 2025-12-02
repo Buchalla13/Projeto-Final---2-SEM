@@ -138,6 +138,49 @@ footer {
   justify-content: center;
 }
 
+/* Cart aside fixed to the right on desktop, vertically centered; mobile = static */
+#cart-aside {
+  position: fixed;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 300px;
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* cart card: remove animations for this aside */
+#cart-aside .card, #cart-aside .card * {
+  transition: none !important;
+}
+
+@media (max-width: 767.98px) {
+  #cart-aside { position: static; transform: none; width: 100%; display: flex; margin-top: 1rem; }
+}
+
+/* Reserve space for the fixed cart on desktop so content doesn't flow under it */
+@media (min-width: 768px) {
+  main .container { padding-right: 360px; }
+}
+
+/* Make non-button text white across the main area */
+main, main *:not(button):not(.btn) {
+  color: #fff !important;
+}
+
+/* Disable color variation and animations for buttons (keep their base colors) */
+.btn, .btn:focus, .btn:hover, .btn:active {
+  transition: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+/* Keep link colors white too (except buttons) */
+a:not(.btn) { color: #fff !important; }
+
 /* Vertical size helpers: represent "4" and "6" vertical columns as vh units */
 .vh-33 { height: 33vh; }
 .vh-50 { height: 50vh; }
@@ -146,4 +189,13 @@ footer {
 @media (max-width: 767.98px) {
   .sticky-card { position: static; transform: none; top: auto; }
   .vh-33, .vh-50 { height: auto; }
+}
+.list-group-item{
+  color:#000000;
+}
+
+/* Cart-specific: ensure cart list items are black with white outline */
+#cart-items .list-group-item {
+  background-color: #000 !important;
+  border: 1px solid #fff !important;
 }
