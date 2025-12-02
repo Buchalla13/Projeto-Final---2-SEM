@@ -45,7 +45,11 @@
                                                 <td><%= produto.nome %></td>
                                                 <td><%= produto.categoriaId %></td>
                                                 <td><%= produto.preco %></td>
-                                                <td><%= produto.Estoque || produto.estoque %></td>
+                                                    <td><%= produto.Estoque || produto.estoque %></td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-sm btn-primary btn-editar-produto">Editar</button>
+                                                        <button type="button" class="btn btn-sm btn-danger btn-excluir-produto">Excluir</button>
+                                                    </td>
                                             </tr>
                                         <% }) %>
                                 <% } else { %>
@@ -105,7 +109,7 @@
                                     <% vendas.forEach(venda => { %>
                                         <tr data-id="<%= venda.id %>">
                                             <td><%= venda.id %></td>
-                                            <td><%= venda.usuarioV_id %></td>
+                                            <td><%= venda.clienteNome || ((venda.cliente && venda.cliente.nome) ? venda.cliente.nome : (venda.usuarioId || '-')) %></td>
                                             <td><%= venda.total %></td>
                                             <td><%= venda.tipo %></td>
                                         </tr>

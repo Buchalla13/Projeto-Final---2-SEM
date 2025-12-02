@@ -7,7 +7,8 @@ const ItensVenda = sequelize.define('ItensVenda', {
     autoIncrement: true,
     primaryKey: true,
   },
-  Venda_id: {
+
+  vendaId: {
     type: DataTypes.INTEGER,
     references: {
       model: 'Vendas',
@@ -16,7 +17,8 @@ const ItensVenda = sequelize.define('ItensVenda', {
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
   },
-  Produto_id: {
+
+  produtoId: {
     type: DataTypes.INTEGER,
     references: {
       model: 'Produtos',
@@ -25,9 +27,10 @@ const ItensVenda = sequelize.define('ItensVenda', {
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
   },
-  UsuarioI_id: {
+
+  usuarioId: {
     type: DataTypes.INTEGER,
-    allowNull: true, // Permitir valores NULL
+    allowNull: true,
     references: {
       model: 'Usuarios',
       key: 'id',
@@ -35,18 +38,21 @@ const ItensVenda = sequelize.define('ItensVenda', {
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
   },
+
   quantidade: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  preco_unitario: {
+
+  precoUnitario: {
     type: DataTypes.DECIMAL(10, 2),
     allowNull: false,
   },
+
   subtotal: {
     type: DataTypes.DECIMAL(10, 2),
     allowNull: false,
   },
-});
+}, { tableName: 'ItensVenda', timestamps: false });
 
 module.exports = ItensVenda;

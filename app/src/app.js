@@ -7,6 +7,7 @@ const { cliente, funcionario } = require('./middlewares/autenticacao');
 const Vendas = require('./models/ModelsVendas'); // Certifique-se de importar o modelo correto
 const Produtos = require('./models/ModelsProdutos');
 const Usuarios = require('./models/ModelsUsuarios');
+const ItensVenda = require('./models/Models_itensVenda');
 const uploadRoutes = require('./routes/uploadRoutes');
 
 const app = express();
@@ -36,13 +37,33 @@ app.get('/funcionario', funcionario, async (req, res) => {
     // Buscar dados necessários para renderizar o painel do funcionário
     const produtos = await Produtos.findAll();
     const clientes = await Usuarios.findAll({ where: { tipo: 'cliente' } });
-    const vendas = await Vendas.findAll();
+    const vendas = await Vendas.findAll({
+      include: [
+        { model: ItensVenda, as: 'itens', include: [{ model: Produtos, as: 'produto' }] },
+        { model: Usuarios, as: 'cliente', attributes: ['id','nome','email'] },
+        { model: Usuarios, as: 'funcionario', attributes: ['id','nome'] }
+      ]
+    });
+
+    // Garantir nome do cliente mesmo que a venda venha de esquema antigo
+    const vendasWithClienteNome = vendas.map(v => {
+      const clienteNomeFromInclude = v && v.cliente && v.cliente.nome;
+      const vendaUsuarioId = v.usuarioId || v.dataValues && v.dataValues.usuarioId || v.dataValues && v.dataValues.usuarioV_id || v.usuarioV_id;
+      let clienteNome = clienteNomeFromInclude;
+      if (!clienteNome && vendaUsuarioId) {
+        const encontrado = clientes.find(c => c.id === vendaUsuarioId || c.id === parseInt(vendaUsuarioId,10));
+        if (encontrado) clienteNome = encontrado.nome;
+      }
+      // anexar campo simples para uso na view
+      v.dataValues.clienteNome = clienteNome || null;
+      return v;
+    });
 
     res.render('funcionario', {
       usuario: req.session,
       produtos,
       clientes,
-      vendas
+      vendas: vendasWithClienteNome
     });
   } catch (erro) {
     console.error(erro);

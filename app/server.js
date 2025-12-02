@@ -4,6 +4,7 @@ const Produtos = require('./src/models/ModelsProdutos');
 const Categorias = require('./src/models/ModelsCategorias');
 const Vendas = require('./src/models/ModelsVendas');
 const Usuarios = require('./src/models/ModelsUsuarios');
+const ItensVenda = require('./src/models/Models_itensVenda');
 
 sequelize.sync().then(() => {
  
@@ -17,6 +18,14 @@ app.listen(PORT, () => {
 Produtos.belongsTo(Categorias, { foreignKey: 'categoriaId', as: 'categoria' });
 Categorias.hasMany(Produtos, { foreignKey: 'categoriaId', as: 'produtos' });
 
-// Uma venda pertence a um usuário --- BDD
-//Vendas.belongsTo(Usuarios, { foreignKey: 'Usuario_id', as: 'usuario' });
-//Usuarios.hasMany(Vendas, { foreignKey: 'Usuario_id', as: 'vendas' });
+// Associações de vendas, itens e usuários
+Vendas.belongsTo(Usuarios, { foreignKey: 'usuarioId', as: 'cliente' });
+Usuarios.hasMany(Vendas, { foreignKey: 'usuarioId', as: 'vendas' });
+
+Vendas.belongsTo(Usuarios, { foreignKey: 'funcionarioId', as: 'funcionario' });
+
+Vendas.hasMany(ItensVenda, { foreignKey: 'vendaId', as: 'itens' });
+ItensVenda.belongsTo(Vendas, { foreignKey: 'vendaId', as: 'venda' });
+
+ItensVenda.belongsTo(Produtos, { foreignKey: 'produtoId', as: 'produto' });
+Produtos.hasMany(ItensVenda, { foreignKey: 'produtoId', as: 'itens' });
