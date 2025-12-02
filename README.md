@@ -1,10 +1,10 @@
 Conceito do projeto: Site de loja de itens esportivos criado como projeto final da matéria de desenvolvimento web do 2º ano de informática do IFSP campus Jacareí, ano 2025.
 
 Autores: 
-Arthur Pereira de Souza -> Parte lógica 
-Guilherme de Siqueira Prado -> Parte lógica
-João Pedro Buchalla Santos -> Banco de dados
-Leonardo Aleixo Salgado da Silva -> Front-end e implementação da API
+Arthur Pereira de Souza -> Parte lógica; 
+Guilherme de Siqueira Prado -> Parte lógica; 
+João Pedro Buchalla Santos -> Banco de dados; 
+Leonardo Aleixo Salgado da Silva -> Front-end e implementação da API.
 
 OBS: Todos contribuíram mutualmente em todas as áreas, apesar de terem suas funções majoritárias.
 
