@@ -138,6 +138,11 @@ footer {
   justify-content: center;
 }
 
+input, select{
+  color: black !important;
+}
+
+
 /* Cart aside fixed to the right on desktop, vertically centered; mobile = static */
 #cart-aside {
   position: fixed;
@@ -167,7 +172,11 @@ footer {
 
 /* Make non-button text white across the main area */
 main, main *:not(button):not(.btn) {
-  color: #fff !important;
+  color: #fff;
+}
+
+.form-control{
+  color: black;
 }
 
 /* Disable color variation and animations for buttons (keep their base colors) */
