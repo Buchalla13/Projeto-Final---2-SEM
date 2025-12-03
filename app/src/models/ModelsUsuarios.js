@@ -31,7 +31,7 @@ tipo: {
     allowNull: true
 },
 cpf: {
-    type: DataTypes.STRING(11),
+    type: DataTypes.int(11),
     allowNull: true,
     defaultValue:'N/A',
     unique: true
